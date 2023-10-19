@@ -3,4 +3,4 @@ e489b225-de5c-483f-8795-eb60b5dc1b26,1,Koks tavo vardas?,MultipleChoice,Marius,J
 811acc07-c5a8-45de-84cf-7ba8848f8a19,1,Koks miestas geriausias?,MultipleChoice,Kaunas,Vilnius ,0,3,1
 2e3279ff-9b48-4e35-bf08-ae568657686f,1,Ar Salta?,MultipleChoice,Taip,Ne,0,3,3
 a2988431-8eeb-4cc7-8f84-43123042ae45,1,Koks miestas?,MultipleChoice,Kaunas,Vilnius,0,3,3
-dfd6d696-f025-43ee-a9f5-866bf319640e,1,Koks Manto vardas?,SingleStringAnswer,Mantas,2,2
+dfd6d696-f025-43ee-a9f5-866bf319640e,0,Koks Manto vardas?,SingleStringAnswer,Mantas,2,2

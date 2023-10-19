@@ -140,6 +140,15 @@ class Question:
             self.correct_attempts += 1
         return is_correct
 
+    def get_correct_answer(self):
+        if self.is_single_answer():
+            answer = self.correct_answer
+        else:
+            answer_index = int(self.correct_answer)
+            answer = self.options[answer_index]
+        return answer
+
+
     def to_csv(self):
         if self.is_single_answer():
             return [self.id, self.enabled, self.text, "SingleStringAnswer", self.correct_answer, self.attempts, self.correct_attempts]
@@ -264,6 +273,7 @@ def main():
                         unique_id = str(question.get_uuid())
                         print("ID:" + unique_id + " Enabled: " + str(question.is_enabled()))
                         question.display()
+                        print("Answer: " + question.get_correct_answer())
                         question_enable = str(input("Enter, enable or disable: "))
                         if question_enable == "enable":
                             question.enable(1)
