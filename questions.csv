@@ -1,2 +1,5 @@
-0a699465-df07-4448-a58a-7b4ce80b364a,Koks dabar oras?,MultipleChoice, Geras,Blogas,0,0,0
-e489b225-de5c-483f-8795-eb60b5dc1b26,Koks tavo vardas?,MultipleChoice,Marius,Jonas,0,0,0
+0a699465-df07-4448-a58a-7b4ce80b364a,Koks dabar oras?,MultipleChoice, Geras,Blogas,0,1,1
+e489b225-de5c-483f-8795-eb60b5dc1b26,Koks tavo vardas?,MultipleChoice,Marius,Jonas,0,1,1
+811acc07-c5a8-45de-84cf-7ba8848f8a19,Koks miestas geriausias?,MultipleChoice,Kaunas,Vilnius ,0,1,0
+2e3279ff-9b48-4e35-bf08-ae568657686f,Ar Salta?,MultipleChoice,Taip,Ne,0,1,1
+a2988431-8eeb-4cc7-8f84-43123042ae45,Koks miestas?,MultipleChoice,Kaunas,Vilnius,0,1,1

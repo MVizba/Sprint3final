@@ -104,6 +104,16 @@ class Question:
     def get_correct_attempts(self):
         return self.correct_attempts
 
+    # Get percentage of correctly answered questions
+    def get_percentage_of_answers(self):
+        if self.attempts == 0:
+            return "0%"
+        else: 
+            percentage_of_answers = round((self.correct_attempts / self.attempts) * 100)
+            return str(percentage_of_answers) + "%"
+
+
+
     def get_uuid(self):
         return self.id
 
@@ -236,9 +246,10 @@ def main():
                     question.display()
                     attempts = str(question.get_attempts())
                     correct = str(question.get_correct_attempts())
+                    percentage = str(question.get_percentage_of_answers())  
                     
 
-                    print("Correctly answered/attempts: " + correct + " / " + attempts + "\n")
+                    print("Correctly answered/attempts: " + correct + " / " + attempts + " Percent: " + percentage + "\n")
 
             elif choice == 5:
                 if len(questions) < 3:
