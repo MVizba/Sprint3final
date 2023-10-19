@@ -87,16 +87,24 @@ import sys
 import uuid
 
 class Question:
-    def __init__(self, uuid, text, correct_answer, options=None):
+    def __init__(self, uuid, enabled, text, correct_answer, options=None):
         self.id = uuid
+        self.enabled = enabled
         self.text = text
         self.correct_answer = correct_answer 
         self.options = options
         self.attempts = 0
         self.correct_attempts = 0
 
+
     def is_single_answer(self):
         return self.options is not None
+
+    def is_enabled(self):
+        return bool(int(self.enabled)) 
+
+    def enable(self, enable):
+        self.enabled = enable
     
     def get_attempts(self):
         return self.attempts
@@ -111,8 +119,6 @@ class Question:
         else: 
             percentage_of_answers = round((self.correct_attempts / self.attempts) * 100)
             return str(percentage_of_answers) + "%"
-
-
 
     def get_uuid(self):
         return self.id
@@ -136,22 +142,22 @@ class Question:
 
     def to_csv(self):
         if self.is_single_answer():
-            return [self.id, self.text, "SingleStringAnswer", self.correct_answer, self.attempts, self.correct_attempts]
+            return [self.id, self.enabled, self.text, "SingleStringAnswer", self.correct_answer, self.attempts, self.correct_attempts]
         else:
-            return [self.id, self.text, "MultipleChoice", *self.options, str(self.correct_answer), self.attempts, self.correct_attempts]
+            return [self.id, self.enabled, self.text, "MultipleChoice", *self.options, str(self.correct_answer), self.attempts, self.correct_attempts]
 
     @classmethod
     def from_csv(cls, row):
-        question_type = row[2]
+        question_type = row[3]
         if question_type == "SingleStringAnswer":
             options = None  # SingleStringAnswer question does not have options
-            correct_answer = row[3]
-            question = SingleStringAnswerQuestion(row[0], row[1], correct_answer)
+            correct_answer = row[4]
+            question = SingleStringAnswerQuestion(row[0], row[1], row[2], correct_answer)
         elif question_type == "MultipleChoice":
-            options = row[3:-3] 
+            options = row[4:-3] 
             correct_answer = row[-3]
             answer_index = row.index(correct_answer)
-            question = MultipleChoiceQuestion(row[0], row[1], correct_answer, options)
+            question = MultipleChoiceQuestion(row[0], row[1], row[2], correct_answer, options)
         else:
             raise ValueError(f"Unknown question type: {question_type}")
 
@@ -159,16 +165,16 @@ class Question:
         return question
 
 class SingleStringAnswerQuestion(Question):
-    def __init__(self, uuid, text, correct_answer):
-        super().__init__(uuid, text, correct_answer, options=None)
+    def __init__(self, uuid, enabled, text, correct_answer):
+        super().__init__(uuid, enabled, text, correct_answer, options=None)
 
     def is_single_answer(self):
         return True
 
 
 class MultipleChoiceQuestion(Question):
-    def __init__(self, uuid, text, correct_answer, options):
-        super().__init__(uuid, text, correct_answer, options)
+    def __init__(self, uuid, enabled, text, correct_answer, options):
+        super().__init__(uuid, enabled, text, correct_answer, options)
 
     def is_single_answer(self):
         return False
@@ -220,7 +226,7 @@ def main():
                     correct_answer = correct_answer - 1
                     unique_id = uuid.uuid4()
 
-                    questions.append(MultipleChoiceQuestion(unique_id, question_text, correct_answer, answers))
+                    questions.append(MultipleChoiceQuestion(unique_id, 1, question_text, correct_answer, answers))
                     save_questions(questions, "questions.csv")
 
                 elif question_type == 2:
@@ -228,7 +234,7 @@ def main():
                     question_answer = str(input("Enter answer: "))
                     unique_id = uuid.uuid4()
 
-                    questions.append(SingleStringAnswerQuestion(unique_id, question_text, question_answer))
+                    questions.append(SingleStringAnswerQuestion(unique_id, 1, question_text, question_answer))
                     save_questions(questions, "questions.csv")
 
                 else:
@@ -241,7 +247,7 @@ def main():
                     print("\r")
                     
                     unique_id = str(question.get_uuid())
-                    print("ID:" + unique_id)
+                    print("ID:" + unique_id + " Enabled: " + str(question.is_enabled()))
                     
                     question.display()
                     attempts = str(question.get_attempts())
@@ -251,12 +257,36 @@ def main():
 
                     print("Correctly answered/attempts: " + correct + " / " + attempts + " Percent: " + percentage + "\n")
 
+            elif choice == 3:
+                question_id = str(input("Enter question UUID: "))
+                for question in questions:
+                    if question.get_uuid() == question_id:
+                        unique_id = str(question.get_uuid())
+                        print("ID:" + unique_id + " Enabled: " + str(question.is_enabled()))
+                        question.display()
+                        question_enable = str(input("Enter, enable or disable: "))
+                        if question_enable == "enable":
+                            question.enable(1)
+                        elif question_enable == "disable":
+                            question.enable(0)
+                        else:
+                            print("wrong input, try again: ")
+
+                        save_questions(questions, "questions.csv")
+
+                        
+                
+
             elif choice == 5:
                 if len(questions) < 3:
                     print("You need to add more questions")
                     continue
 
                 for question in questions:
+                
+                    if question.is_enabled() == False: 
+                        continue
+
                     question.display()
                     user_answer = input("Your answer: ")
                     is_correct = question.check_answer(user_answer)
