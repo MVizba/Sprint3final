@@ -1,90 +1,8 @@
-'''
-Tasks: 
-
-1. When the program starts - you should be able to choose 
-between the following mode: 
-
- - Adding questions.
- - Statistics viewing.
- - Disable/enable questions.
- - Practice mode.
- - Test mode.
-
-2. Adding questions:
-2.1 Can't access -Practice or -Test mode. until atleast 5
-    questions are inputed.
-
-2.2 Choose type of question to add (quizz or free_form). 
-    questions should be saved in to .csv file.
-    
-    #User add question to .csv file and answers. (every question needs to have a number and A.B. answers to choose.)
-         
-            quizz - input (Nr.)(question)
-                    input (A)answer1 
-                    input (B)answer2
-                    input (Correect answer if A input A if B input B)
-                    Save quizz question to .csv quizz qurstion.csv
-                    Ask to quite or add another quesiton or quite
-
-            free-form - Input (Question)
-                        Input (answer)
-                        save to free_form.csv
-                        ask to add another qustion or quite.
-
-3. Statistics viewing mode:
-
-    Print out questions from .csv files quizz and free-form
-    Question should have: | unicue ID number | Acvtive or Not | question | how many times was print out in Practice or test mode | % how many times was answered correctly |  
-    Print {
-        ID | Active | question | In use: f"{times}" | 25% | 
-    }
-4. Disable/Enable questions:
-
-    Input ID 
-    Print (question) 
-    Print (answers)
-    Print (correct answer: )
-        Ask to confirm (active or disable)
-        save in .csv file. 
-        If active - question will show in practise or test mode
-        if disable - question will not gonna show in practise or test mode.
-        store this information in .csv file. (Choose to save in the same .csv file or different one)
-
-5. Practice mode: 
-    Choose  quizz or free_form
-    Input ("Choose quizz or free_form: ")
-    If quizz 
-        run questions for quizz.csv 
-    if free_form 
-        run questions from free_form
-    else:
-        print("wrong choise. You can choose "quizz" ir "free_form": )
-
-    loop 
-        while True:
-            Show question randomly 
-            if answer was correct - less show this question in practice mode.
-            if answer wrong - show more times in practice mode           # weighted random choices !!!!
-        if Error
-            break(print: score) and reccored to .csv file
-
-        
-6. Test mode:
-
-    Print(Input: Choose quizz ir free_form)
-
-
-    test_mode = Input("How many quesions you would like to get?: ")
-    if test_mode < (number of inputed questions) == run test_mode.
-    if test_mode > (questions inputed) == print number should be lower ask for input again.
-    show question random but only one time. 
-    if all questions answered - print (score: Nr. of correct answers.)
-    save to results.txt (score, date, time)
-'''
 import random
 import csv
 import sys
 import uuid
+import datetime
 
 class Question:
     def __init__(self, uuid, enabled, text, correct_answer, options=None):
@@ -290,9 +208,9 @@ def main():
 
             #Practice mode:
             elif choice == 4: 
-                      
+
                 while True: 
-                    
+
                     for question in questions:
                 
                         if question.is_enabled() == False: 
@@ -312,20 +230,37 @@ def main():
                         
 
             elif choice == 5:
-                if len(questions) < 5:
-                    print("You need to add more questions")
+                            
+                num_questions = len(questions)
+                if num_questions < 5:
+                    print("You need to add more questions to start.")
                     continue
 
-                for question in questions:
-                
+                print(f"maximum number of possible questions to answer is {num_questions}")
+                num_to_answer = int(input("How many questions will you answer? "))
+                if num_to_answer > num_questions:
+                    print("Choose lower number of questions!")
+                    continue
+
+                correct_answers = 0
+
+                for question in random.sample(questions, num_to_answer):
                     if question.is_enabled() == False: 
                         continue
-
+                    
                     question.display()
                     user_answer = input("Your answer: ")
                     is_correct = question.check_answer(user_answer)
                     print("Correct!\n" if is_correct else "Incorrect!\n")
+
+                    if is_correct:
+                        correct_answers += 1
                 
+                score = f"Score: {correct_answers}/{num_to_answer}"
+                with open("results.txt", "a") as results_file:
+                    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    results_file.write(f"{score} - {current_time}\n")
+                print(score)
                 save_questions(questions, "questions.csv") 
 
             else:
