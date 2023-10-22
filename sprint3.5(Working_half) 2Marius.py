@@ -96,7 +96,6 @@ class Question:
         self.attempts = 0
         self.correct_attempts = 0
 
-
     def is_single_answer(self):
         return self.options is not None
 
@@ -131,13 +130,18 @@ class Question:
 
     def check_answer(self, user_answer):
         self.attempts += 1
-        if self.is_single_answer():
-            is_correct = user_answer.lower() == self.correct_answer.lower()
-        else:
-            user_answer = int(user_answer) - 1
-            is_correct = int(user_answer) == int(self.correct_answer)
-        if is_correct:
-            self.correct_attempts += 1
+        try:
+            if self.is_single_answer():
+                is_correct = user_answer.lower() == self.correct_answer.lower()
+            else:
+                user_answer = int(user_answer) - 1
+                is_correct = int(user_answer) == int(self.correct_answer)
+            if is_correct:
+                self.correct_attempts += 1
+        except ValueError:
+            print("Invalid input. Use numbers, not letters")
+            return False
+        
         return is_correct
 
     def get_correct_answer(self):
@@ -202,8 +206,8 @@ def load_questions(filename):
         reader = csv.reader(file)
         for row in reader:
             questions.append(Question.from_csv(row))
+    random.shuffle(questions)
     return questions
-
 
 def main():
         questions = load_questions("questions.csv")
@@ -284,11 +288,31 @@ def main():
 
                         save_questions(questions, "questions.csv")
 
-                        
+            #Practice mode:
+            elif choice == 4: 
+                      
+                while True: 
+                    
+                    for question in questions:
                 
+                        if question.is_enabled() == False: 
+                            continue
+                        question.display()
+                        user_answer = input("Your answer: ")
+                        if user_answer == ".":
+                            break
+
+                        is_correct = question.check_answer(user_answer)
+                        print("Correct!\n" if is_correct else "Incorrect!\n")
+
+                    if user_answer == ".":
+                        break
+                
+                save_questions(questions, "questions.csv") 
+                        
 
             elif choice == 5:
-                if len(questions) < 3:
+                if len(questions) < 5:
                     print("You need to add more questions")
                     continue
 
@@ -300,11 +324,9 @@ def main():
                     question.display()
                     user_answer = input("Your answer: ")
                     is_correct = question.check_answer(user_answer)
-                    print("Correct!" if is_correct else "Incorrect.")
+                    print("Correct!\n" if is_correct else "Incorrect!\n")
                 
                 save_questions(questions, "questions.csv") 
-            # elif choise == 3:
-            #     ...
 
             else:
                 Print("Invalid choice.Please try again. ")
