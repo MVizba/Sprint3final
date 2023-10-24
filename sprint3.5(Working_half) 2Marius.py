@@ -1,3 +1,20 @@
+'''
+How to use a program. 
+
+Navigate in this program by entering numbers to select or to answer the question(if it's not a free_form) and a "." to quit the module. 
+1. You must choose mode, entering numbers 1 to 5. 
+2. Choice 1 is to input questions. But first, you need to choose what kind of questions you will input, quiz type or free form, by entering number 1 or 2.
+    If you input quiz, after question input, you press Enter, then input all the answers individually. When you finish, input  ".". 
+Then, input a number whose answer is correct. 
+   If you choose a free_form, enter a question, then press enter, input an answer, and press enter. 
+3, Choice 2 - will show all the questions with unic ID, the question with answers and statistics, how many attempts it has, how many were answered correctly, and the percentage of this question. 
+4, Choice 3 - Disable/Enable. To use it, input UUID from a .csv file, 
+then write turn the question on or off. 
+5, Choice 4 - Practice mode. to enter this mode, you must be inputed at least five questions. Questions are shown randomly by the weight it has (weight is assigned to correct_attempts). If your answer is correct, it's likely not to be shown again.
+6, Choice 5 - Test mode. To enter, you need to have at least five questions. Input the number of questions you would like to answer. The score is saved in txt. 
+'''
+
+
 import random
 import csv
 import sys
@@ -209,19 +226,24 @@ def main():
             #Practice mode:
             elif choice == 4: 
 
-                while True: 
+                num_questions = len(questions)
+                if num_questions < 5:
+                    print("You need to add more questions to start.")
+                    continue
 
-                    for question in questions:
+                while True:
+                    weights = [question.correct_attempts for question in questions]
+                    question = random.choices(questions, k=1, weights=weights)[0]
                 
-                        if question.is_enabled() == False: 
-                            continue
-                        question.display()
-                        user_answer = input("Your answer: ")
-                        if user_answer == ".":
-                            break
+                    if question.is_enabled() == False: 
+                        continue
+                    question.display()
+                    user_answer = input("Your answer: ")
+                    if user_answer == ".":
+                        break
 
-                        is_correct = question.check_answer(user_answer)
-                        print("Correct!\n" if is_correct else "Incorrect!\n")
+                    is_correct = question.check_answer(user_answer)
+                    print("Correct!\n" if is_correct else "Incorrect!\n")
 
                     if user_answer == ".":
                         break
