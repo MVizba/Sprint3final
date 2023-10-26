@@ -2,10 +2,13 @@
 833508be-1385-4acd-ad36-b2554052f66d,1,Most annoying bird in a city?,SingleStringAnswer,Pigeon,6,3
 0a699465-df07-4448-a58a-7b4ce80b364a,0,Koks dabar oras?,MultipleChoice, Geras,Blogas,0,21,14
 a2988431-8eeb-4cc7-8f84-43123042ae45,0,Koks miestas?,MultipleChoice,Kaunas,Vilnius,0,28,16
-0297dcf0-5c31-4d7f-bb71-7bc1577cbb88,1,Capital of Lithuania?,MultipleChoice,Kaunas,Vilnius,1,13,8,1
-2e3279ff-9b48-4e35-bf08-ae568657686f,1,Ar Salta?,MultipleChoice,Taip,Ne,0,33,19
+0297dcf0-5c31-4d7f-bb71-7bc1577cbb88,1,Capital of Lithuania?,MultipleChoice,Kaunas,Vilnius,1,13,9,1
+2e3279ff-9b48-4e35-bf08-ae568657686f,1,Ar Salta?,MultipleChoice,Taip,Ne,0,34,20
 bb1e8de1-de9e-4d25-9650-cdcd25aca02c,0,1,MultipleChoice,test,0,4,2
-dfd6d696-f025-43ee-a9f5-866bf319640e,1,Koks Manto vardas?,SingleStringAnswer,Mantas,32,17
-e489b225-de5c-483f-8795-eb60b5dc1b26,1,Koks tavo vardas?,MultipleChoice,Marius,Jonas,0,29,11
-f35f33dc-38b9-46d5-8552-a8f03aec76ab,1,Name of Lithuanian President?,SingleStringAnswer,Gitanas,28,14
+dfd6d696-f025-43ee-a9f5-866bf319640e,1,Koks Manto vardas?,SingleStringAnswer,Mantas,34,17
+e489b225-de5c-483f-8795-eb60b5dc1b26,1,Koks tavo vardas?,MultipleChoice,Marius,Jonas,0,32,12
+f35f33dc-38b9-46d5-8552-a8f03aec76ab,1,Name of Lithuanian President?,SingleStringAnswer,Gitanas,29,14
 811acc07-c5a8-45de-84cf-7ba8848f8a19,1,Koks miestas geriausias?,MultipleChoice,Kaunas,Vilnius ,0,31,16
+d89b6166-6192-4078-9292-7756d96b3df1,1,What's the weather?,SingleStringAnswer,Good,1,1
+0e4ee907-4627-4280-aaac-c2c3df5c1112,1,What's your name?,MultipleChoice,Marius,Gediminas,Me,0,0,0
+2c305f85-05d9-41dd-a1d3-33557ab98b76,1,Ahoy,SingleStringAnswer,jey,0,0

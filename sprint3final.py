@@ -117,7 +117,8 @@ class Question:
 
         question.attempts, question.correct_attempts = int(row[-2]), int(row[-1])
         return question
-
+ 
+    # Subclass to define different question type
 class SingleStringAnswerQuestion(Question):
     def __init__(self, uuid, enabled, text, correct_answer):
         super().__init__(uuid, enabled, text, correct_answer, options=None)
@@ -125,6 +126,7 @@ class SingleStringAnswerQuestion(Question):
     def is_single_answer(self):
         return True
 
+      # Subclass to define different question type
 class MultipleChoiceQuestion(Question):
     def __init__(self, uuid, enabled, text, correct_answer, options):
         super().__init__(uuid, enabled, text, correct_answer, options)
@@ -133,13 +135,14 @@ class MultipleChoiceQuestion(Question):
         return False
 
 
-
+# Function to save question to csv file
 def save_questions(questions, filename):
     with open(filename, mode='w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         for question in questions:
             writer.writerow(question.to_csv())
 
+# Function to load a question from csv file
 def load_questions(filename):
     questions = []
     with open(filename, mode='r', encoding='utf-8') as file:
@@ -270,7 +273,7 @@ def main():
                     print("You need to add more questions to start.")
                     continue
 
-                enabled_questions = []      # Changed to get list of ennabled   question to choose for answering
+                enabled_questions = []      # Changed to get list of enabled questions to choose for answering
                 for question in questions:
                     if question.is_enabled() == True:
                         enabled_questions.append(question)
